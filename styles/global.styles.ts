@@ -1,5 +1,7 @@
 import {createGlobalStyle} from 'styled-components'
 
+import {COLORS} from '~/constants'
+
 export const GlobalStyle = createGlobalStyle`
   /* @font-face {
     font-family: 'Ubuntu';
@@ -32,7 +34,7 @@ export const GlobalStyle = createGlobalStyle`
   }  
 
   html {
-    font-size: 62.5%;
+    font-size: 50%;
   }
 
   html,
@@ -40,6 +42,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     font-family: Ubuntu, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Helvetica Neue, sans-serif;
+    color: ${COLORS.text_light};
   }
 
   a {
