@@ -1,6 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
+import {JumboBlock} from '~/components'
+
 const Create: NextPage = () => {
   return (
     <div>
@@ -13,9 +15,7 @@ const Create: NextPage = () => {
       </Head>
 
       <main>
-        <h1>
-          Hello World!
-        </h1>
+        <JumboBlock />
       </main>
     </div>
   )
