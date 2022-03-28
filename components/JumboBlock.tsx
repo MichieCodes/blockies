@@ -5,9 +5,13 @@ import {COLORS, SIZES, STYLES} from '~/constants'
 
 import {WindowControls} from './WindowControls'
 
-export function JumboBlock() {
+interface JumboBlockProps {
+  className?: string
+}
+
+export function JumboBlock({className} : JumboBlockProps) {
   return (
-    <StyledJumboBlock>
+    <StyledJumboBlock className={className}>
       <WindowControls />
     </StyledJumboBlock>
   )
