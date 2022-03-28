@@ -1,9 +1,15 @@
-import type { NextPage } from 'next'
+import type {NextPage} from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
 
 import {SIZES} from '~/constants'
-import {Button, Dropdown, DropdownOption, Input, JumboBlock} from '~/components'
+import {
+  Button,
+  Dropdown,
+  DropdownOption,
+  Input,
+  JumboBlock,
+} from '~/components'
 
 const _generateOptions = (...titles : string[]) : DropdownOption[] => 
   titles.map((title) => ({title, value: title.toLowerCase()}))
