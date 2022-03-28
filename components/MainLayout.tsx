@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import {useRouter} from 'next/router'
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 
 import {COLORS, SIZES} from '../constants'
 
@@ -9,8 +9,10 @@ interface MainLayoutProps {
   children: React.ReactNode
 }
 
-const _isActive = (targetPath : string) => 
-  (path : string) => path === targetPath
+const _isActive = (...targetPaths : string[]) => 
+  (path : string) => targetPaths.some(
+    (targetPath) => targetPath === path
+  )
 
 const NAV_LINKS = [
   {
@@ -26,15 +28,15 @@ const NAV_LINKS = [
   {
     title: 'Blocks',
     path: '/blocks',
-    isActive: _isActive('/blocks')
+    isActive: _isActive('/blocks', '/blocks/[id]')
   }
 ]
 
 export function MainLayout({children} : MainLayoutProps) {
-  const {pathname} = useRouter();
+  const {route} = useRouter();
 
   return (
-    <StyledMainLayout>
+    <StyledMainLayout path={route}>
       <StyledHeader>
         <Link href="/" passHref>
           <a><StyledSiteTitle>Blockies</StyledSiteTitle></a>
@@ -44,7 +46,7 @@ export function MainLayout({children} : MainLayoutProps) {
           {NAV_LINKS.map((link) => 
             <Link key={link.title} href={link.path} passHref>
               <StyledNavLink
-                active={link.isActive(pathname)}>
+                active={link.isActive(route)}>
                 {link.title}
               </StyledNavLink>
             </Link>
@@ -57,8 +59,11 @@ export function MainLayout({children} : MainLayoutProps) {
   )
 }
 
-const StyledMainLayout = styled.div`
+export const StyledMainLayout = styled.div<{path: string}>`
   padding: ${SIZES.s_xl} 12.8rem;
+  ${(props) => NAV_LINKS[0].isActive(props.path) && css`
+    height: 100vh;
+  `}
   background: ${COLORS.background_gradient};
 `
 
