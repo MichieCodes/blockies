@@ -23,6 +23,17 @@ export function Input({id, label, ...props} : InputProps<'input'>) {
   )
 }
 
+export function TextArea({id, label, ...props} : InputProps<'textarea'>) {
+  return (
+    <StyledInputGroup>
+      <StyledInputLabel htmlFor={id}>
+        {label}
+      </StyledInputLabel>
+      <StyledTextArea as="textarea" id={id} {...props} />
+    </StyledInputGroup>
+  )
+}
+
 export function Dropdown({id, label, options, ...props} : DropdownProps) {
   return (
     <StyledSelectGroup>
@@ -55,6 +66,10 @@ const StyledInput = styled.input`
   border-radius: ${SIZES.s_md};
   color: ${COLORS.text_light};
   background-color: ${COLORS.transparent_darkest_blue};
+`
+
+const StyledTextArea = styled(StyledInput)`
+  resize: vertical;
 `
 
 const StyledSelectGroup = styled(StyledInputGroup)`

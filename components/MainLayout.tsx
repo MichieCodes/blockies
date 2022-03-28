@@ -59,8 +59,6 @@ export function MainLayout({children} : MainLayoutProps) {
 
 const StyledMainLayout = styled.div`
   padding: ${SIZES.s_xl} 12.8rem;
-  width: 100vw;
-  height: 100vh;
   background: ${COLORS.background_gradient};
 `
 
