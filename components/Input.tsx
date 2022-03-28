@@ -42,7 +42,9 @@ export function Dropdown({id, label, options, ...props} : DropdownProps) {
       </StyledInputLabel>
       <StyledSelect as="select" {...props}>
         {options.map((option) => 
-          <option value={option.value}>{option.title}</option>
+          <option key={option.value} value={option.value}>
+            {option.title}
+          </option>
         )}
       </StyledSelect>
     </StyledSelectGroup>
