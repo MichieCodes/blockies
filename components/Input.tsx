@@ -3,16 +3,38 @@ import styled from 'styled-components'
 
 import {COLORS, SIZES} from '~/constants'
 
-type InputProps = React.ComponentPropsWithRef<'input'> & {label: string}
+export interface DropdownOption {
+  title: string,
+  value: string
+}
 
-export function Input({id, label, ...props} : InputProps) {
+type InputProps<T extends React.ElementType> =
+  React.ComponentPropsWithRef<T> & {label: string}
+type DropdownProps = InputProps<'select'> & {options: DropdownOption[]}
+
+export function Input({id, label, ...props} : InputProps<'input'>) {
   return (
     <StyledInputGroup>
       <StyledInputLabel htmlFor={id}>
         {label}
       </StyledInputLabel>
-      <StyledInputBase id={id} {...props} />
+      <StyledInput id={id} {...props} />
     </StyledInputGroup>
+  )
+}
+
+export function Dropdown({id, label, options, ...props} : DropdownProps) {
+  return (
+    <StyledSelectGroup>
+      <StyledInputLabel htmlFor={id}>
+        {label}
+      </StyledInputLabel>
+      <StyledSelect as="select" {...props}>
+        {options.map((option) => 
+          <option value={option.value}>{option.title}</option>
+        )}
+      </StyledSelect>
+    </StyledSelectGroup>
   )
 }
 
@@ -25,7 +47,7 @@ const StyledInputLabel = styled.label`
   align-self: flex-start;
   font-size: 2.6rem;
 `
-const StyledInputBase = styled.input`
+const StyledInput = styled.input`
   padding: ${SIZES.s_sm} ${SIZES.s_md};
   font-family: Ubuntu, sans-serif;
   font-size: 2.2rem;
@@ -33,4 +55,20 @@ const StyledInputBase = styled.input`
   border-radius: ${SIZES.s_md};
   color: ${COLORS.text_light};
   background-color: ${COLORS.transparent_darkest_blue};
+`
+
+const StyledSelectGroup = styled(StyledInputGroup)`
+  position: relative;
+
+  &::after {
+    content: '🞃';
+    position: absolute;
+    right: 2rem;
+    bottom: 1.75rem;
+    font-size: 2.6rem;
+    color: ${COLORS.light_saturated_blue};
+  }
+`
+const StyledSelect = styled(StyledInput)`
+  appearance: none;
 `

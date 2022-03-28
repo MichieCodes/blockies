@@ -3,7 +3,14 @@ import Head from 'next/head'
 import styled from 'styled-components'
 
 import {SIZES} from '~/constants'
-import {Button, Input, JumboBlock} from '~/components'
+import {Button, Dropdown, DropdownOption, Input, JumboBlock} from '~/components'
+
+const _generateOptions = (...titles : string[]) : DropdownOption[] => 
+  titles.map((title) => ({title, value: title.toLowerCase()}))
+
+const MODE_OPTIONS = _generateOptions('Normal', 'Diff')
+const SYNTAX_OPTIONS = _generateOptions('Plain Text', 'TypeScript', 'Java', 'Go')
+const ACCESS_OPTIONS = _generateOptions('Public', 'Unlisted')
 
 const Create: NextPage = () => {
   return (
@@ -20,9 +27,9 @@ const Create: NextPage = () => {
         <JumboBlock />
         <StyledFormGroup>
           <Input id="title" label="Title"/>
-          <Input id="mode" label="Mode"/>
-          <Input id="syntax" label="Syntax"/>
-          <Input id="access" label="Access"/>
+          <Dropdown id="mode" label="Mode" options={MODE_OPTIONS} />
+          <Dropdown id="syntax" label="Syntax" options={SYNTAX_OPTIONS} />
+          <Dropdown id="access" label="Access" options={ACCESS_OPTIONS} />
         </StyledFormGroup>
         <StyledButton />
       </StyledMain>
