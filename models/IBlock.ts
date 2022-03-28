@@ -6,6 +6,7 @@ export interface IBlock {
   content: string[],
   mode: 'normal' | 'diff',
   syntax: string,
+  access?: 'public' | 'unlisted',
   password?: string,
   comments?: IComment[],
   created_at: string,
