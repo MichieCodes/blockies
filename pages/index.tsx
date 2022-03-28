@@ -9,11 +9,11 @@ const Create: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Blockies</title>
+        <title>Blockies - Create Block</title>
         <meta
           name="description"
           content="Blockies - Share your blocks of text and code!" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images/favicon.ico" />
       </Head>
 
       <StyledMain>
