@@ -31,7 +31,7 @@ const Create: NextPage = () => {
           <Dropdown id="syntax" label="Syntax" options={SYNTAX_OPTIONS} />
           <Dropdown id="access" label="Access" options={ACCESS_OPTIONS} />
         </StyledFormGroup>
-        <StyledButton />
+        <StyledButton>Save</StyledButton>
       </StyledMain>
     </div>
   )

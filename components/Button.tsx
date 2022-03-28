@@ -7,9 +7,7 @@ type ButtonProps = React.ComponentPropsWithRef<'button'>
 
 export function Button(props: ButtonProps) {
   return (
-    <StyledButton {...props}>
-      Save
-    </StyledButton>
+    <StyledButton {...props} />
   )
 }
 
