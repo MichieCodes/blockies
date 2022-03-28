@@ -42,7 +42,7 @@ export function MainLayout({children} : MainLayoutProps) {
 
         <nav>
           {NAV_LINKS.map((link) => 
-            <Link href={link.path} passHref>
+            <Link key={link.title} href={link.path} passHref>
               <StyledNavLink
                 active={link.isActive(pathname)}>
                 {link.title}
