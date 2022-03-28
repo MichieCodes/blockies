@@ -14,8 +14,8 @@ export function JumboBlock() {
 }
 
 const StyledJumboBlock = styled.div`
+  flex: 1;
   width: 100%;
-  height: 40vh;
   padding: ${SIZES.s_md};
   border-radius: ${SIZES.s_md};
   background-color: ${COLORS.darkest_blue};
