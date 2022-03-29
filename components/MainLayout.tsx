@@ -3,7 +3,7 @@ import Link from 'next/link'
 import {useRouter} from 'next/router'
 import styled, {css} from 'styled-components'
 
-import {COLORS, SIZES} from '../constants'
+import {COLORS, SIZES} from '~/constants'
 
 interface MainLayoutProps {
   children: React.ReactNode
@@ -33,7 +33,7 @@ const NAV_LINKS = [
 ]
 
 export function MainLayout({children} : MainLayoutProps) {
-  const {route} = useRouter();
+  const {route} = useRouter()
 
   return (
     <StyledMainLayout path={route}>
@@ -62,9 +62,7 @@ export function MainLayout({children} : MainLayoutProps) {
 export const StyledMainLayout = styled.div<{path: string}>`
   padding: ${SIZES.s_xl} 12.8rem;
   ${(props) =>
-    NAV_LINKS.slice(0, 2).some((link) =>
-      link.isActive(props.path)
-    ) && css`height: 100vh;`
+    !NAV_LINKS[2].isActive(props.path) && css`height: 100vh;`
   }
   background: ${COLORS.background_gradient};
 `
