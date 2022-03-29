@@ -61,7 +61,7 @@ const StyledInputLabel = styled.label`
   font-size: 2.6rem;
 `
 const StyledInput = styled.input`
-  padding: ${SIZES.s_sm} ${SIZES.s_md};
+  padding: 1.25rem 1.875rem;
   font-family: Ubuntu, sans-serif;
   font-size: 2.2rem;
   border: 3px solid ${COLORS.light_blue};

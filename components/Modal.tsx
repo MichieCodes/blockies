@@ -137,7 +137,7 @@ const StyledModal = styled.div<StyledModalProps>`
     }
 
     & > h2 {
-      font-size: 3.75rem;
+      font-size: ${(props) => props.size === 'sm' ? 3.45 : 3.75}rem;
       font-weight: 700;
     }
   }

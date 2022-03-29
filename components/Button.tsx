@@ -13,7 +13,7 @@ export function Button(props: ButtonProps) {
 
 const StyledButton = styled.button`
   cursor: pointer;
-  padding: 1.3rem ${SIZES.s_md};
+  padding: 1.125rem ${SIZES.s_md};
   font-family: Ubuntu, sans-serif;
   font-size: 3rem;
   font-weight: 500;
