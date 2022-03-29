@@ -61,9 +61,11 @@ export function MainLayout({children} : MainLayoutProps) {
 
 export const StyledMainLayout = styled.div<{path: string}>`
   padding: ${SIZES.s_xl} 12.8rem;
-  ${(props) => NAV_LINKS[0].isActive(props.path) && css`
-    height: 100vh;
-  `}
+  ${(props) =>
+    NAV_LINKS.slice(0, 2).some((link) =>
+      link.isActive(props.path)
+    ) && css`height: 100vh;`
+  }
   background: ${COLORS.background_gradient};
 `
 

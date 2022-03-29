@@ -56,13 +56,13 @@ const Create: NextPage = () => {
   )
 }
 
-const StyledMain = styled.main`
+export const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   height: calc(100vh - 3 * ${SIZES.s_xl} - 5rem);
 `
 
-const StyledFormGroup = styled.form`
+export const StyledFormGroup = styled.form`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
@@ -71,7 +71,7 @@ const StyledFormGroup = styled.form`
   margin: ${SIZES.s_xl} 0;
 `
 
-const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)`
   width: 100%;
 `
 
