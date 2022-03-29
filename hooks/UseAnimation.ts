@@ -1,7 +1,7 @@
 import React from 'react'
 import {Keyframes} from 'styled-components';
 
-export function useAnimation<T>(
+export function useAnimation<T extends HTMLElement>(
   enterAnimation : Keyframes,
   leaveAnimation ?: Keyframes
 ) {
@@ -42,7 +42,7 @@ export function useAnimation<T>(
         'animationend',
         onAnimationEnd
       )
-  }, [element])
+  }, [element.current])
 
   return {element, animation, completed, enter, leave, toggle}
 }
