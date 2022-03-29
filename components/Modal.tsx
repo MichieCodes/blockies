@@ -37,9 +37,9 @@ export function Modal({title, size = 'lg', buttons, isStatic, children, close} :
   )
 
   const onClose = React.useCallback(() => {
-    OverlayAnimation.toggle()
+    OverlayAnimation.leave()
 
-    setTimeout(ModalAnimation.toggle, 100)
+    setTimeout(ModalAnimation.leave, 100)
   }, [])  
 
   React.useEffect(() => {
