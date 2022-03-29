@@ -9,6 +9,7 @@ import {
   SIZES,
   SYNTAX_OPTIONS
 } from '~/constants'
+import {useLeaveWarning} from '~/hooks'
 
 import {
   BlockSavedModal,
@@ -18,12 +19,17 @@ import {
   JumboBlock,
 } from '~/components'
 
+const LEAVE_WARNING_TEXT = 
+  'You have not saved your new Block. Are you sure you want to leave?'
+
 const Create: NextPage = () => {
   const [showSavedModal, setShowSaveModel] = React.useState(false)
 
   const closeModal = React.useCallback(() => {
     setShowSaveModel(false)
   }, [])
+
+  useLeaveWarning(LEAVE_WARNING_TEXT)
 
   return (
     <div>
