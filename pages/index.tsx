@@ -3,23 +3,20 @@ import type {NextPage} from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
 
-import {SIZES} from '~/constants'
+import {
+  ACCESS_OPTIONS,
+  MODE_OPTIONS,
+  SIZES,
+  SYNTAX_OPTIONS
+} from '~/constants'
 
 import {
   BlockSavedModal,
   Button,
   Dropdown,
-  DropdownOption,
   Input,
   JumboBlock,
 } from '~/components'
-
-const _generateOptions = (...titles : string[]) : DropdownOption[] => 
-  titles.map((title) => ({title, value: title.toLowerCase()}))
-
-const MODE_OPTIONS = _generateOptions('Normal', 'Diff')
-const SYNTAX_OPTIONS = _generateOptions('Plain Text', 'TypeScript', 'Java', 'Go')
-const ACCESS_OPTIONS = _generateOptions('Public', 'Unlisted')
 
 const Create: NextPage = () => {
   const [showSavedModal, setShowSaveModel] = React.useState(false)
