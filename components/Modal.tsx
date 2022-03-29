@@ -40,6 +40,7 @@ export function Modal({title, size = 'lg', buttons, isStatic, children, close} :
     OverlayAnimation.leave()
 
     setTimeout(ModalAnimation.leave, 100)
+    setTimeout(close, 350)
   }, [])  
 
   React.useEffect(() => {
@@ -48,11 +49,6 @@ export function Modal({title, size = 'lg', buttons, isStatic, children, close} :
     setTimeout(ModalAnimation.enter, 100)
   }, [])
   
-  React.useEffect(() => {
-    if(OverlayAnimation.completed === KeyframeFadeOut.getName())
-      close()
-  }, [OverlayAnimation.completed, close])
-
   return (
     <Portal>
       <StyledOverlay

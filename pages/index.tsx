@@ -1,9 +1,12 @@
+import React from 'react'
 import type {NextPage} from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
 
 import {SIZES} from '~/constants'
+
 import {
+  BlockSavedModal,
   Button,
   Dropdown,
   DropdownOption,
@@ -19,6 +22,13 @@ const SYNTAX_OPTIONS = _generateOptions('Plain Text', 'TypeScript', 'Java', 'Go'
 const ACCESS_OPTIONS = _generateOptions('Public', 'Unlisted')
 
 const Create: NextPage = () => {
+  const [showSavedModal, setShowSaveModel] = React.useState(false)
+
+  const toggleModal = React.useCallback(() => {
+    setShowSaveModel((currentValue) => !currentValue)
+  }, [])
+
+  console.log(showSavedModal)
   return (
     <div>
       <Head>
@@ -37,8 +47,15 @@ const Create: NextPage = () => {
           <Dropdown id="syntax" label="Syntax" options={SYNTAX_OPTIONS} />
           <Dropdown id="access" label="Access" options={ACCESS_OPTIONS} />
         </StyledFormGroup>
-        <StyledButton>Save</StyledButton>
+        <StyledButton onClick={() => setShowSaveModel(true)}>
+          Save
+        </StyledButton>
       </StyledMain>
+
+      {showSavedModal
+        ? <BlockSavedModal close={toggleModal} />
+        : null
+      }
     </div>
   )
 }
