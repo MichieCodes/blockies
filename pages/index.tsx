@@ -24,11 +24,10 @@ const ACCESS_OPTIONS = _generateOptions('Public', 'Unlisted')
 const Create: NextPage = () => {
   const [showSavedModal, setShowSaveModel] = React.useState(false)
 
-  const toggleModal = React.useCallback(() => {
-    setShowSaveModel((currentValue) => !currentValue)
+  const closeModal = React.useCallback(() => {
+    setShowSaveModel(false)
   }, [])
 
-  console.log(showSavedModal)
   return (
     <div>
       <Head>
@@ -53,7 +52,7 @@ const Create: NextPage = () => {
       </StyledMain>
 
       {showSavedModal
-        ? <BlockSavedModal close={toggleModal} />
+        ? <BlockSavedModal close={closeModal} />
         : null
       }
     </div>

@@ -15,7 +15,7 @@ const MODAL_BUTTONS : ModalButtonProps[] = [
     title: 'View Block',
     action: (cb) => {
       console.log('navigating')
-      setTimeout(cb, 2000)
+      setTimeout(cb, 1000)
     }
   }
 ]
