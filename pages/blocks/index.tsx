@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import {SIZES} from '~/constants'
 import {IBlockListItem} from '~/models'
+import {getBaseUrl} from '~/utils'
 
 import {BlockCard} from '~/components'
 
@@ -30,9 +31,7 @@ const Blocks: NextPage<{blocks: IBlockListItem[]}> = ({blocks}) => {
 }
 
 export const getServerSideProps : GetServerSideProps = async ({req}) => {
-  const protocol = req.headers['x-forwarded-proto'] || 'http'
-  const baseUrl = req ? `${protocol}://${req.headers.host}` : ''
-  const blocks = await fetch(`${baseUrl}/api/blocks`)
+  const blocks = await fetch(`${getBaseUrl(req)}/api/blocks`)
     .then((data) => data.json())
 
   return {
