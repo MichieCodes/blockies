@@ -27,7 +27,7 @@ export function BlockSavedModal({close} : BlockSavedModalProps) {
         <Input
           id="block-link"
           label="Your Block's Link"
-          value="http://website.com/blocks/ZJbMPW78KPi6GJMrDWP1d"
+          value="https://blockies.michiecodes.repl.co/blocks/ZJbMPW78KPi6GJMrDWP1d"
           readOnly />
         <Input
           id="block-password"

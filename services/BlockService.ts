@@ -1,5 +1,5 @@
 import {nanoid} from 'nanoid'
-import argon2 from 'argon2'
+import bcrypt from 'bcrypt'
 
 import {Optional} from '~/utils'
 import {IBlock, IBlockListItem} from '~/models'
@@ -14,7 +14,7 @@ async function create(block : CreateBlockDTO) {
   const password = nanoid()
   
   block.id = id
-  block.password = await argon2.hash(password)
+  block.password = bcrypt.hashSync(password, 10);
   block.comments = []
   block.created_at = new Date().toISOString()
   block.updated_at = new Date().toISOString()
@@ -48,8 +48,10 @@ async function getAll() {
 
 async function edit(block : Partial<IBlock> & Pick<IBlock, 'id' | 'password'>) {
   const currentBlock = await db.get(block.id) as IBlock
+
+  console.log(currentBlock)
   
-  if(!block || !await argon2.verify(currentBlock.password!, block.password!)) 
+  if(!block || !bcrypt.compareSync(block.password!, currentBlock.password!)) 
     return null
 
   block = {
@@ -66,7 +68,7 @@ async function edit(block : Partial<IBlock> & Pick<IBlock, 'id' | 'password'>) {
 async function remove(id : string, password : string) {
   const block = await db.get(id) as IBlock 
   
-  if(!block || !await argon2.verify(block.password!, password)) 
+  if(!block || !bcrypt.compareSync(password, block.password!)) 
     return false
 
   await db.delete(id)

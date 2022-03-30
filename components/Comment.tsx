@@ -1,8 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 import {COLORS, SIZES} from '~/constants'
 import {IComment} from '~/models'
+
+dayjs.extend(relativeTime)
 
 export function Comment({comment} : {comment : IComment}) {
   return (
@@ -12,7 +16,7 @@ export function Comment({comment} : {comment : IComment}) {
           <StyledProfile>KM</StyledProfile>
           <h4>{comment.user}</h4>
         </div>
-        <span>1 day ago</span>
+        <span>{dayjs(comment.updated_at).fromNow()}</span>
       </header>
       <p>
         {comment.content}
