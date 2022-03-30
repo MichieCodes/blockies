@@ -16,7 +16,7 @@ export function Comment({comment} : {comment : IComment}) {
           <StyledProfile>KM</StyledProfile>
           <h4>{comment.user}</h4>
         </div>
-        <span>{dayjs(comment.updated_at).fromNow()}</span>
+        <span>{dayjs(comment.created_at).fromNow()}</span>
       </header>
       <p>
         {comment.content}
