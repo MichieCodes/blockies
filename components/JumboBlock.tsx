@@ -11,7 +11,8 @@ interface JumboBlockProps {
   readOnly?: boolean,
   content?: string,
   syntax?: string,
-  className?: string
+  className?: string,
+  onChange?: (value: string) => void
 }
 
 const CodeEditor = dynamic(
@@ -19,7 +20,7 @@ const CodeEditor = dynamic(
   {ssr: false}
 )
 
-export function JumboBlock({readOnly, content, syntax = 'plain text', className} : JumboBlockProps) {
+export function JumboBlock({readOnly, content, syntax = 'plain text', className, onChange} : JumboBlockProps) {
   return (
     <StyledJumboBlock className={className}>
       <WindowControls />
@@ -31,7 +32,6 @@ export function JumboBlock({readOnly, content, syntax = 'plain text', className}
           placeholder="Enter Block Text Here..."
           value={content}
           disabled={readOnly}
-          // onChange={(evn) => setCode(evn.target.value)}
           padding={0}
           style={{
             position: 'absolute',
@@ -41,7 +41,10 @@ export function JumboBlock({readOnly, content, syntax = 'plain text', className}
             fontWeight: 500,
             letterSpacing: '0.03rem',
             backgroundColor: "transparent",
-          }}/>
+          }}
+          onChange={(e : React.ChangeEvent<HTMLTextAreaElement>) =>
+            onChange?.(e.target.value)
+          } />
       </section>
     </StyledJumboBlock>
   )

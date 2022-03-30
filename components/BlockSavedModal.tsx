@@ -5,33 +5,39 @@ import {SIZES} from '~/constants'
 
 import {Modal, ModalButtonProps} from './Modal'
 import {Input} from './Input'
+import {useRouter} from 'next/router'
 
-interface BlockSavedModalProps {
+export interface BlockSavedModalProps {
+  id: string,
+  password: string,
   close: () => void
 }
 
-const MODAL_BUTTONS : ModalButtonProps[] = [
-  {
-    title: 'View Block',
-    action: (cb) => {
-      console.log('navigating')
-      setTimeout(cb, 1000)
-    }
-  }
-]
+export function BlockSavedModal({id, password, close} : BlockSavedModalProps) {
+  const path = `/blocks/${id}`
+  const router = useRouter()
 
-export function BlockSavedModal({close} : BlockSavedModalProps) {
+  const modalButton = React.useMemo<ModalButtonProps[]>(() => [
+    {
+      title: 'View Block',
+      action: (cb) => {
+        cb()
+        setTimeout(() => router.push(path), 300)
+      }
+    }
+  ], [path, router])
+
   return (
-    <Modal title="Block Saved" buttons={MODAL_BUTTONS} close={close}>
+    <Modal title="Block Saved" buttons={modalButton} close={close}>
       <StyledForm>
         <Input
           id="block-link"
           label="Your Block's Link"
-          value="https://blockies.michiecodes.repl.co/blocks/ZJbMPW78KPi6GJMrDWP1d"
+          value={`${window.location.origin}${path}`}
           readOnly />
         <Input
           id="block-password"
-          value="3783enjjdsijeu3u88"
+          value={password}
           label="Your Block's Password"
           readOnly />
       </StyledForm>

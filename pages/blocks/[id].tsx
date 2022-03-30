@@ -1,3 +1,4 @@
+import React, {MouseEventHandler} from 'react'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
@@ -5,7 +6,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
 import {SIZES} from '~/constants'
-import {IBlock} from '~/models'
+import {IBlock, IComment} from '~/models'
 import {getBaseUrl} from '~/utils'
 
 import {
@@ -20,7 +21,44 @@ import {
 dayjs.extend(relativeTime)
 
 const BlockDetail: NextPage<{block : IBlock}> = ({block}) => {
-  console.log(block)
+  const [comment, setComment] = React.useState('')
+  const [newComments, setNewComments] = React.useState<IComment[]>([])
+  const allComments = React.useMemo(() => [
+      ...(block?.comments || []), ...newComments
+  ], [block.comments, newComments])
+
+  const onSubmit : MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault()
+
+    const commentData = {
+      block_id: block.id,
+      user: 'KoolMongoose',
+      content: comment
+    }
+
+    const data : IComment = await fetch(
+      '/api/comments',
+      {
+      method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(commentData)
+      }
+    ).then((data) => data.json()).catch(() => null)
+
+    if(!data) {
+      alert('[ERROR] Could not submit comment. Please try again')
+      return
+    }
+
+    setNewComments((currentNewComments) => 
+      [...currentNewComments, data]
+    )
+    setComment('')
+  }                                            
+
   return (
     <div>
       <Head>
@@ -45,11 +83,15 @@ const BlockDetail: NextPage<{block : IBlock}> = ({block}) => {
           content={block?.content[0]} />
         {/* <ModeSwitch /> */}
         <form>
-          <TextArea id="comment" label="Leave a Comment" />
-          <Button>Sumbit</Button>
+          <TextArea
+            id="comment"
+            label="Leave a Comment"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)} />
+          <Button onClick={onSubmit}>Sumbit</Button>
         </form>
         <StyledCommentSection>
-          {block?.comments?.map((comment) => 
+          {allComments.map((comment) => 
             <Comment key={comment.id} comment={comment} />
           )}
         </StyledCommentSection>

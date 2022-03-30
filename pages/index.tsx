@@ -13,24 +13,63 @@ import {useLeaveWarning} from '~/hooks'
 
 import {
   BlockSavedModal,
+  BlockSavedModalProps,
   Button,
   Dropdown,
   Input,
   JumboBlock,
 } from '~/components'
+import {IBlock} from '~/models'
 
 const LEAVE_WARNING_TEXT = 
   'You have not saved your new Block. Are you sure you want to leave?'
 
 const Create: NextPage = () => {
+  const [content, setContent] = React.useState('')
+  const [title, setTitle] = React.useState('Untitled Block')
+  const [access, setAccess] = React.useState('public')
   const [syntax, setSyntax] = React.useState('plain text')
-  const [showSavedModal, setShowSaveModel] = React.useState(false)
+  const [saveModalState, setSaveModalState] = React.useState<
+    Omit<BlockSavedModalProps, 'close'>|undefined
+  >()
+  
+  useLeaveWarning(LEAVE_WARNING_TEXT, !saveModalState)
+
+  const onSave = async () => {
+    const mode = 'normal'
+
+    const block = {
+      title,
+      content: [content],
+      mode,
+      syntax,
+      access
+    }
+
+    const data : IBlock = await fetch(
+      '/api/blocks',
+      {
+      method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(block)
+      }
+    ).then((data) => data.json()).catch(() => null)
+
+    if(!data) {
+      alert('[ERROR] Could not save block. Please try again')
+      return
+    }
+
+    console.log(block)
+    setSaveModalState({id: data.id, password: data.password!})
+  }      
 
   const closeModal = React.useCallback(() => {
-    setShowSaveModel(false)
+    setSaveModalState(undefined)
   }, [])
-
-  useLeaveWarning(LEAVE_WARNING_TEXT)
 
   return (
     <div>
@@ -43,25 +82,34 @@ const Create: NextPage = () => {
       </Head>
 
       <StyledMain>
-        <JumboBlock syntax={syntax} />
+        <JumboBlock
+          syntax={syntax}
+          onChange={(value) => setContent(value)} />
         <StyledFormGroup>
-          <Input id="title" label="Title"/>
+          <Input
+            id="title"
+            label="Title"
+            defaultValue="Untitled Block"
+            onChange={(e) => setTitle(e.target.value)} />
           <Dropdown id="mode" label="Mode" options={MODE_OPTIONS} />
           <Dropdown
             id="syntax"
             label="Syntax"
             options={SYNTAX_OPTIONS}
             onChange={(e) => setSyntax(e.target.value)} />
-          <Dropdown id="access" label="Access" options={ACCESS_OPTIONS} />
+          <Dropdown
+            id="access"
+            label="Access"
+            options={ACCESS_OPTIONS} 
+            onChange={(e) => setAccess(e.target.value)} />
         </StyledFormGroup>
-        <StyledButton onClick={() => setShowSaveModel(true)}>
+        <StyledButton onClick={onSave}>
           Save
         </StyledButton>
       </StyledMain>
 
-      {showSavedModal
-        ? <BlockSavedModal close={closeModal} />
-        : null
+      {saveModalState && 
+        <BlockSavedModal {...saveModalState} close={closeModal} />
       }
     </div>
   )
