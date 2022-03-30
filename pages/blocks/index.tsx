@@ -35,7 +35,7 @@ const Blocks: NextPage = () => {
 const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 3 * ${SIZES.s_xl} - 5rem);
+  min-height: 100vh;
 `
 
 const StyledSection = styled.section`

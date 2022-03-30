@@ -81,7 +81,7 @@ const StyledSelectGroup = styled(StyledInputGroup)`
     content: '🞃';
     position: absolute;
     right: 2rem;
-    bottom: 1.75rem;
+    bottom: 1.55rem;
     font-size: 2.6rem;
     color: ${COLORS.light_saturated_blue};
   }
