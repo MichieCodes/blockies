@@ -2,7 +2,7 @@ import {nanoid} from 'nanoid'
 import argon2 from 'argon2'
 
 import {Optional} from '~/utils'
-import {IBlock} from '~/models'
+import {IBlock, IBlockListItem} from '~/models'
 import {db} from './Connection'
 
 type CreateBlockDTO = Optional<
@@ -19,20 +19,31 @@ async function create(block : CreateBlockDTO) {
   block.created_at = new Date().toISOString()
   block.updated_at = new Date().toISOString()
 
-  db.set(id, block)
+  await db.set(id, block)
+
+  block.password = password
 
   return block
 }
 
 async function get(id : string) {
   const block = await db.get(id) as IBlock
+
+  delete block.password
   return block
 }
 
-//todo: transform
 async function getAll() {
-  const blocks : IBlock[] = Object.values(db.getAll()) || []
-  return blocks.filter((block) => block.access === 'public')
+  const blocks : IBlock[] = Object.values(await db.getAll()) || []
+  const block_list_items : IBlockListItem[] = 
+    blocks
+      .filter((block) => block.access === 'public')
+      .map(({id, title, syntax, created_at, updated_at, mode, comments}) => ({
+        id, title, syntax, created_at, updated_at, mode,
+        comment_count: comments?.length || 0
+      }))
+
+  return block_list_items
 }
 
 async function edit(block : Partial<IBlock> & Pick<IBlock, 'id' | 'password'>) {
@@ -47,7 +58,7 @@ async function edit(block : Partial<IBlock> & Pick<IBlock, 'id' | 'password'>) {
     updated_at: new Date().toISOString()
   }
 
-  db.set(block.id, block)
+  await db.set(block.id, block)
 
   return block
 }
@@ -58,7 +69,7 @@ async function remove(id : string, password : string) {
   if(!block || !await argon2.verify(block.password!, password)) 
     return false
 
-  db.delete(id)
+  await db.delete(id)
 
   return true
 }

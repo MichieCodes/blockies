@@ -1,3 +1,3 @@
-import {Client} from '@replit/database'
+const Client = require('@replit/database')
 
 export const db = new Client()

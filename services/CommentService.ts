@@ -4,7 +4,7 @@ import {Optional} from '~/utils'
 import {IComment, IBlock} from '~/models'
 import {db} from './Connection'
 
-type CreateCommentDTO = Optional<IComment, 'id' | 'created_at'>
+export type CreateCommentDTO = Optional<IComment, 'id' | 'created_at'>
 
 async function create(comment : CreateCommentDTO) {
   const block = await db.get(comment.block_id) as IBlock
