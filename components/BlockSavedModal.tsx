@@ -27,9 +27,11 @@ export function BlockSavedModal({close} : BlockSavedModalProps) {
         <Input
           id="block-link"
           label="Your Block's Link"
+          value="http://website.com/blocks/ZJbMPW78KPi6GJMrDWP1d"
           readOnly />
         <Input
           id="block-password"
+          value="3783enjjdsijeu3u88"
           label="Your Block's Password"
           readOnly />
       </StyledForm>

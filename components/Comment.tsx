@@ -2,19 +2,20 @@ import React from 'react'
 import styled from 'styled-components'
 
 import {COLORS, SIZES} from '~/constants'
+import {IComment} from '~/models'
 
-export function Comment() {
+export function Comment({comment} : {comment : IComment}) {
   return (
     <StyledComment>
       <header>
         <div>
           <StyledProfile>KM</StyledProfile>
-          <h4>KindManatee</h4>
+          <h4>{comment.user}</h4>
         </div>
         <span>1 day ago</span>
       </header>
       <p>
-        Vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione volup sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam
+        {comment.content}
       </p>
     </StyledComment>
   )

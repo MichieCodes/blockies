@@ -1,11 +1,13 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
 
 import {SIZES} from '~/constants'
+import {IBlockListItem} from '~/models'
+
 import {BlockCard} from '~/components'
 
-const Blocks: NextPage = () => {
+const Blocks: NextPage<{blocks: IBlockListItem[]}> = ({blocks}) => {
   return (
     <div>
       <Head>
@@ -18,18 +20,26 @@ const Blocks: NextPage = () => {
 
       <StyledMain>
         <StyledSection>
-          <BlockCard />
-          <BlockCard />
-          <BlockCard />
-          <BlockCard />
-          <BlockCard />
-          <BlockCard />
-          <BlockCard />
-          <BlockCard />
+          {blocks.map((block) => 
+            <BlockCard key={block.id} block={block} />
+          )}
         </StyledSection>
       </StyledMain>
     </div>
   )
+}
+
+export const getServerSideProps : GetServerSideProps = async ({req}) => {
+  const protocol = req.headers['x-forwarded-proto'] || 'http'
+  const baseUrl = req ? `${protocol}://${req.headers.host}` : ''
+  const blocks = await fetch(`${baseUrl}/api/blocks`)
+    .then((data) => data.json())
+
+  return {
+    props: {
+      blocks
+    }
+  }
 }
 
 const StyledMain = styled.main`

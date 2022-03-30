@@ -1,5 +1,5 @@
 import React from 'react'
-import type {NextPage} from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 
 import {
@@ -7,6 +7,7 @@ import {
   MODE_OPTIONS,
   SYNTAX_OPTIONS
 } from '~/constants'
+import {IBlock} from '~/models'
 import {useLeaveWarning} from '~/hooks'
 
 import {
@@ -67,5 +68,5 @@ const Edit: NextPage = () => {
     </div>
   )
 }
-
+ 
 export default Edit

@@ -1,25 +1,32 @@
 import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 import {COLORS, SIZES, STYLES} from '~/constants'
 
 import {WindowControls} from './WindowControls'
 import {BlockLabel} from './BlockLabel'
+import {IBlockListItem} from '~/models'
 
-export function BlockCard() {
+dayjs.extend(relativeTime)
+
+export function BlockCard({block} : {block : IBlockListItem}) {
   return (
     <StyledBlockCard>
       <StyledHeader>
         <WindowControls />
         <BlockLabel>
-          Plain Text
+          {block.syntax[0].toUpperCase() + block.syntax.slice(1)}
         </BlockLabel>
       </StyledHeader>
-      <Link href="/blocks/block-id">
+      <Link href={`/blocks/${block.id}`}>
         <a>
-          <h2>Untitled Block</h2>
-          <span>1 day ago • 3 comments</span>
+          <h2>{block.title}</h2>
+          <span>
+            {dayjs(block.updated_at).fromNow()} • {block.comment_count} comments
+          </span>
         </a>
       </Link>
     </StyledBlockCard>
