@@ -23,6 +23,7 @@ const LEAVE_WARNING_TEXT =
   'You have not saved your new Block. Are you sure you want to leave?'
 
 const Create: NextPage = () => {
+  const [syntax, setSyntax] = React.useState('plain text')
   const [showSavedModal, setShowSaveModel] = React.useState(false)
 
   const closeModal = React.useCallback(() => {
@@ -42,11 +43,15 @@ const Create: NextPage = () => {
       </Head>
 
       <StyledMain>
-        <JumboBlock />
+        <JumboBlock syntax={syntax} />
         <StyledFormGroup>
           <Input id="title" label="Title"/>
           <Dropdown id="mode" label="Mode" options={MODE_OPTIONS} />
-          <Dropdown id="syntax" label="Syntax" options={SYNTAX_OPTIONS} />
+          <Dropdown
+            id="syntax"
+            label="Syntax"
+            options={SYNTAX_OPTIONS}
+            onChange={(e) => setSyntax(e.target.value)} />
           <Dropdown id="access" label="Access" options={ACCESS_OPTIONS} />
         </StyledFormGroup>
         <StyledButton onClick={() => setShowSaveModel(true)}>
