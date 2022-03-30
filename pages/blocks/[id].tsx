@@ -13,6 +13,14 @@ import {
   TextArea
 } from '~/components'
 
+const BLOCK_TEXT = `Libero nunc consequat interdum varius sit amet mattis. Quisque id diam vel quam elementum pulvinar etiam non. Lorem dolor sed viverra ipsum nunc aliquet bibendum enim facilisis. Turpis egestas integer eget aliquet nibh praesent tristique magna. Id velit ut tortor pretium. Dictumst quisque sagittis purus sit amet volutpat consequat mauris nunc. Et ligula ullamcorper malesuada proin libero nunc consequat. Justo nec ultrices dui sapien eget mi proin.
+
+Et malesuada fames ac turpis. Lorem mollis aliquam ut porttitor. Ac auctor augue mauris augue neque. Vel risus commodo viverra maecenas accumsan lacus. Mauris nunc congue nisi vitae suscipit tellus mauris a. Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Viverra accumsan in nisl nisi scelerisque eu ultrices vitae. In pellentesque massa placerat duis ultricies lacus sed.
+
+Tincidunt id aliquet risus feugiat in ante metus dictum at. Duis convallis convallis tellus id interdum velit laoreet. Urna nunc id cursus metus. Consequat mauris nunc congue nisi vitae. Arcu vitae elementum curabitur vitae nunc sed velit dignissim. Turpis egestas pretium aenean pharetra.
+
+Molestie at elementum eu facilisis sed odio. Purus ut faucibus pulvinar elementum integer enim neque volutpat ac. Volutpat consequat mauris nunc congue nisi vitae suscipit. Cursus metus aliquam eleifend mi in nulla posuere. Nisl vel pretium lectus quam id. At consectetur lorem donec massa sapien faucibus. Non pulvinar neque laoreet suspendisse interdum consectetur libero id. Metus dictum at tempor commodo. Turpis egestas integer eget aliquet.`
+
 const BlockDetail: NextPage = () => {
   return (
     <div>
@@ -32,7 +40,10 @@ const BlockDetail: NextPage = () => {
           </div>
           <span>Updated 1 day ago</span>
         </header>
-        <StyledJumboBlock />
+        <StyledJumboBlock
+          readOnly
+          syntax="javascript"
+          content={BLOCK_TEXT} />
         {/* <ModeSwitch /> */}
         <form>
           <TextArea id="comment" label="Leave a Comment" />
