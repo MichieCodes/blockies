@@ -1,8 +1,9 @@
-import nanoid from 'nanoid'
+import {nanoid} from 'nanoid'
 import argon2 from 'argon2'
 
+import {Optional} from '~/utils'
 import {IBlock} from '~/models'
-import { db } from './Connection'
+import {db} from './Connection'
 
 type CreateBlockDTO = Optional<
   IBlock, 'id' | 'created_at' | 'updated_at'
@@ -14,29 +15,30 @@ async function create(block : CreateBlockDTO) {
   
   block.id = id
   block.password = await argon2.hash(password)
+  block.comments = []
   block.created_at = new Date().toISOString()
   block.updated_at = new Date().toISOString()
 
-  await db.set(id, block)
+  db.set(id, block)
 
   return block
 }
 
 async function get(id : string) {
-  const block : IBlock = await db.get(id)
+  const block = await db.get(id) as IBlock
   return block
 }
 
 //todo: transform
 async function getAll() {
-  const blocks : IBlock[] = Object.values(await db.getAll()) || []
+  const blocks : IBlock[] = Object.values(db.getAll()) || []
   return blocks.filter((block) => block.access === 'public')
 }
 
-async function edit(block : Partial<IBlock> & Pick<IBlock, 'id'>) {
-  const currentBlock : IBlock = await db.get(block.id)
+async function edit(block : Partial<IBlock> & Pick<IBlock, 'id' | 'password'>) {
+  const currentBlock = await db.get(block.id) as IBlock
   
-  if(!block || !await argon2.verify(block.password, password)) 
+  if(!block || !await argon2.verify(currentBlock.password!, block.password!)) 
     return null
 
   block = {
@@ -45,18 +47,18 @@ async function edit(block : Partial<IBlock> & Pick<IBlock, 'id'>) {
     updated_at: new Date().toISOString()
   }
 
-  await db.set(block.id, block)
+  db.set(block.id, block)
 
   return block
 }
 
 async function remove(id : string, password : string) {
-  const block : IBlock = await db.get(id)
+  const block = await db.get(id) as IBlock 
   
-  if(!block || !await argon2.verify(block.password, password)) 
+  if(!block || !await argon2.verify(block.password!, password)) 
     return false
 
-  await db.delete(id)
+  db.delete(id)
 
   return true
 }
