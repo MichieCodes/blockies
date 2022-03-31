@@ -9,6 +9,8 @@ import {
   SIZES,
   SYNTAX_OPTIONS
 } from '~/constants'
+import {IBlock} from '~/models'
+import {fetchApi} from '~/utils'
 import {useLeaveWarning} from '~/hooks'
 
 import {
@@ -19,7 +21,8 @@ import {
   Input,
   JumboBlock,
 } from '~/components'
-import {IBlock} from '~/models'
+
+export type BlockCredentials = Omit<BlockSavedModalProps, 'close'>
 
 const LEAVE_WARNING_TEXT = 
   'You have not saved your new Block. Are you sure you want to leave?'
@@ -30,7 +33,7 @@ const Create: NextPage = () => {
   const [access, setAccess] = React.useState('public')
   const [syntax, setSyntax] = React.useState('plain text')
   const [saveModalState, setSaveModalState] = React.useState<
-    Omit<BlockSavedModalProps, 'close'>|undefined
+    BlockCredentials|undefined
   >()
   
   useLeaveWarning(LEAVE_WARNING_TEXT, !saveModalState)
@@ -46,24 +49,17 @@ const Create: NextPage = () => {
       access
     }
 
-    const data : IBlock = await fetch(
+    const data : IBlock = await fetchApi(
       '/api/blocks',
-      {
-      method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(block)
-      }
-    ).then((data) => data.json()).catch(() => null)
+      'POST',
+      block
+    )
 
     if(!data) {
       alert('[ERROR] Could not save block. Please try again')
       return
     }
 
-    console.log(block)
     setSaveModalState({id: data.id, password: data.password!})
   }      
 

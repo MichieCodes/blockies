@@ -1,5 +1,5 @@
 import React from 'react'
-import type { GetServerSideProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import Head from 'next/head'
 
 import {
@@ -8,24 +8,37 @@ import {
   SYNTAX_OPTIONS
 } from '~/constants'
 import {IBlock} from '~/models'
+import {fetchApi} from '~/utils'
 import {useLeaveWarning} from '~/hooks'
 
 import {
   BlockEditModal,
   BlockSavedModal,
+  BlockSavedModalProps,
   Dropdown,
   Input,
   JumboBlock,
 } from '~/components'
-import {StyledButton, StyledFormGroup, StyledMain} from './index'
+import {
+  BlockCredentials,
+  StyledButton,
+  StyledFormGroup,
+  StyledMain
+} from './index'
 
 const LEAVE_WARNING_TEXT = 
   'You have not saved your Block updates. Are you sure you want to leave?'
 
 const Edit: NextPage = () => {
+  const [content, setContent] = React.useState('')
+  const [title, setTitle] = React.useState('Untitled Block')
+  const [access, setAccess] = React.useState('public')
   const [syntax, setSyntax] = React.useState('plain text')
-  const [showSavedModal, setShowSaveModel] = React.useState(false)
   const [showEditModal, setShowEditModel] = React.useState(true)
+  const [showSavedModal, setShowSaveModel] = React.useState(false)
+  const [saveModalState, setSaveModalState] = React.useState<
+    BlockCredentials|undefined
+  >() 
 
   useLeaveWarning(LEAVE_WARNING_TEXT)
 
@@ -35,6 +48,47 @@ const Edit: NextPage = () => {
   const closeSavedModal = React.useCallback(() => {
     setShowSaveModel(false)
   }, [])
+
+  const setBlock = React.useCallback(({
+    id, content, title, access, syntax, password
+  } : IBlock) => {
+    console.log(id, content, title, access, syntax, password)
+    setContent(content[0])
+    setTitle(title)
+    setAccess(access)
+    setSyntax(syntax)
+
+    setSaveModalState({id, password: password!})
+  }, []) 
+
+  const onUpdate = async () => {
+    if(!saveModalState) return
+
+    const {id, password} = saveModalState
+    const mode = 'normal'
+
+    const block = {
+      title,
+      content: [content],
+      mode,
+      syntax,
+      access,
+      password
+    }
+
+    const data : IBlock = await fetchApi(
+      `/api/blocks/${id}`,
+      'PUT',
+      block
+    )
+
+    if(!data) {
+      alert('[ERROR] Could not update block. Please try again')
+      return
+    }
+
+    setShowSaveModel(true)
+  } 
 
   return (
     <div>
@@ -47,24 +101,43 @@ const Edit: NextPage = () => {
       </Head>
 
       <StyledMain>
-        <JumboBlock syntax={syntax} />
+        <JumboBlock
+          syntax={syntax}
+          content={content}
+          onChange={(value) => setContent(value)} />
         <StyledFormGroup>
-          <Input id="title" label="Title"/>
+          <Input
+            id="title"
+            label="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)} />
           <Dropdown id="mode" label="Mode" options={MODE_OPTIONS} />
           <Dropdown
             id="syntax"
             label="Syntax"
             options={SYNTAX_OPTIONS}
+            value={syntax}
             onChange={(e) => setSyntax(e.target.value)} />
-          <Dropdown id="access" label="Access" options={ACCESS_OPTIONS} />
-        </StyledFormGroup>
-        <StyledButton onClick={() => setShowSaveModel(true)}>
+          <Dropdown
+            id="access"
+            label="Access"
+            options={ACCESS_OPTIONS} 
+            value={access}
+            onChange={(e) => setAccess(e.target.value)} />
+        </StyledFormGroup> 
+        <StyledButton onClick={onUpdate}>
           Update
         </StyledButton>
       </StyledMain>
 
-      {showEditModal && <BlockEditModal close={closeEditModal} />}
-      {showSavedModal && <BlockSavedModal close={closeSavedModal} />}
+      {showEditModal && 
+        <BlockEditModal
+          close={closeEditModal}
+          editCB={setBlock} />
+      }
+      {showSavedModal && saveModalState &&
+        <BlockSavedModal {...saveModalState} close={closeSavedModal} />
+      }
     </div>
   )
 }

@@ -7,7 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 
 import {SIZES} from '~/constants'
 import {IBlock, IComment} from '~/models'
-import {getBaseUrl} from '~/utils'
+import {fetchApi, getBaseUrl} from '~/utils'
 
 import {
   BlockLabel,
@@ -25,7 +25,7 @@ const BlockDetail: NextPage<{block : IBlock}> = ({block}) => {
   const [newComments, setNewComments] = React.useState<IComment[]>([])
   const allComments = React.useMemo(() => [
       ...(block?.comments || []), ...newComments
-  ], [block.comments, newComments])
+  ], [block?.comments, newComments])
 
   const onSubmit : MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
@@ -36,17 +36,11 @@ const BlockDetail: NextPage<{block : IBlock}> = ({block}) => {
       content: comment
     }
 
-    const data : IComment = await fetch(
+    const data : IComment = await fetchApi(
       '/api/comments',
-      {
-      method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(commentData)
-      }
-    ).then((data) => data.json()).catch(() => null)
+      'POST',
+      commentData
+    )
 
     if(!data) {
       alert('[ERROR] Could not submit comment. Please try again')
@@ -103,6 +97,16 @@ const BlockDetail: NextPage<{block : IBlock}> = ({block}) => {
 export const getServerSideProps : GetServerSideProps = async ({params, req}) => {
   const block = await fetch(`${getBaseUrl(req)}/api/blocks/${params!.id}`)
     .then((data) => data.json()).catch(() => null)
+
+  if(!block) { 
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/404"
+      },
+      props:{}
+    }
+  }
 
   return {
     props: {

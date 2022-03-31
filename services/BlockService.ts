@@ -57,6 +57,7 @@ async function edit(block : Partial<IBlock> & Pick<IBlock, 'id' | 'password'>) {
   block = {
     ...currentBlock,
     ...block,
+    password: currentBlock.password,
     updated_at: new Date().toISOString()
   }
 
