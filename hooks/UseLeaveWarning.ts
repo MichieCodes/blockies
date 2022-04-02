@@ -1,9 +1,7 @@
 import React from 'react'
 import {useRouter} from 'next/router'
 
-const WARNING_TEXT = 'Are you sure you want to leave?'
-
-export function useLeaveWarning(message : string = WARNING_TEXT, enabled : boolean = true) {
+export function useLeaveWarning(message : string, enabled : boolean = true) {
   const router = useRouter()
 
   React.useEffect(() => {
