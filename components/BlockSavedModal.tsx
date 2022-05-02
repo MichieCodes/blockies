@@ -1,11 +1,11 @@
 import React from 'react'
+import {useRouter} from 'next/router'
 import styled from 'styled-components'
 
 import {SIZES} from '~/constants'
 
 import {Modal, ModalButtonProps} from './Modal'
 import {Input} from './Input'
-import {useRouter} from 'next/router'
 
 export interface BlockSavedModalProps {
   id: string,

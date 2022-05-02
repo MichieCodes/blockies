@@ -5,10 +5,10 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
 import {COLORS, SIZES, STYLES} from '~/constants'
+import {IBlockListItem} from '~/models'
 
 import {WindowControls} from './WindowControls'
 import {BlockLabel} from './BlockLabel'
-import {IBlockListItem} from '~/models'
 
 dayjs.extend(relativeTime)
 

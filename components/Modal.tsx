@@ -2,7 +2,6 @@ import React from 'react'
 import styled, {css, Keyframes, keyframes} from 'styled-components'
 
 import {COLORS, SIZES, STYLES} from '~/constants'
-
 import {useAnimation} from '~/hooks'
 
 import {Portal} from './Portal'

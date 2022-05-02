@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import {COLORS, SIZES} from '~/constants'
+
 import {StyledBlockLabel} from './BlockLabel'
 
 export function ModeSwitch() {

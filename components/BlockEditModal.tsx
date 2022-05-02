@@ -1,4 +1,5 @@
 import React from 'react'
+import {useRouter} from 'next/router'
 import styled from 'styled-components'
 
 import {SIZES} from '~/constants'
@@ -8,7 +9,6 @@ import {fetchApi} from '~/utils'
 import {Modal, ModalButtonProps} from './Modal'
 import {Input} from './Input'
 import {ConfirmDeleteModal} from './ConfirmDeleteModal'
-import {useRouter} from 'next/router'
 
 interface BlockEditModalProps {
   editCB: (block : IBlock) => void,
