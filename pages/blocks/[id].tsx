@@ -14,7 +14,6 @@ import {
   Button,
   Comment,
   JumboBlock,
-  ModeSwitch,
   TextArea
 } from '~/components'
 
@@ -75,7 +74,6 @@ const BlockDetail: NextPage<{block : IBlock}> = ({block}) => {
           readOnly
           syntax="javascript"
           content={block?.content[0]} />
-        {/* <ModeSwitch /> */}
         <form>
           <TextArea
             id="comment"

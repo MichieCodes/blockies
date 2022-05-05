@@ -14,7 +14,6 @@ import {useLeaveWarning} from '~/hooks'
 import {
   BlockEditModal,
   BlockSavedModal,
-  BlockSavedModalProps,
   Dropdown,
   Input,
   JumboBlock,
